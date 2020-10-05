@@ -11,6 +11,7 @@ app.set('views', __dirname + '/views');
 app.set('layout', 'layouts/layout');
 app.use(expressLayouts);
 app.use(express.static(__dirname + 'public'));
+app.use(express.urlencoded({ limit: '10mb', extended: false }));
 
 // db
 const mongoose = require('mongoose');
@@ -21,7 +22,7 @@ mongoose.connect(process.env.DATABASE_URL, {
 
 const db = mongoose.connection;
 db.on('error', error => console.log(error));
-db.once('open', error => console.log("Connected To DB"));
+db.once('open', () => console.log("Connected To DB"));
 
 // routes
 app.use('/', indexRouter);
